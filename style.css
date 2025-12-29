@@ -1,0 +1,51 @@
+:root { 
+    --lula: #d32f2f; 
+    --flavio: #0056b3; 
+    --dark: #121214; 
+    --gold: #ffd700; 
+    --text: #ffffff;
+}
+
+* { box-sizing: border-box; }
+
+body { 
+    font-family: 'Segoe UI', Arial, sans-serif; 
+    background: #0a0a0b; color: var(--text); 
+    margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; 
+}
+
+header { background: var(--dark); width: 100%; padding: 20px; text-align: center; border-bottom: 3px solid var(--gold); }
+
+.aviso-legal {
+    background: rgba(255, 215, 0, 0.05); border: 1px solid var(--gold); color: var(--gold);
+    padding: 10px; margin: 15px auto; width: 90%; max-width: 600px; border-radius: 8px; font-size: 0.7rem; text-align: center;
+}
+
+.container { width: 95%; max-width: 600px; background: #1c1c21; padding: 20px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
+
+.arena { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.candidato { flex: 1; text-align: center; }
+.candidato img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; }
+
+.img-lula { border: 3px solid var(--lula); box-shadow: 0 0 10px rgba(211, 47, 47, 0.3); }
+.img-flavio { border: 3px solid var(--flavio); box-shadow: 0 0 10px rgba(0, 86, 179, 0.3); }
+
+.vs { font-weight: bold; font-size: 1.2rem; color: #444; }
+
+.barra-container { height: 45px; background: #333; border-radius: 8px; display: flex; overflow: hidden; margin-top: 10px; }
+#barra-lula, #barra-flavio { height: 100%; transition: width 1s ease; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8rem; }
+#barra-lula { background: var(--lula); }
+#barra-flavio { background: var(--flavio); }
+
+.btn-voto { width: 100%; margin-top: 10px; padding: 15px 5px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 0.7rem; }
+.btn-lula { background: var(--lula); }
+.btn-flavio { background: var(--flavio); }
+
+.share-section { margin-top: 25px; text-align: center; border-top: 1px solid #333; padding-top: 15px; }
+.btn-share { width: 100%; padding: 12px; border: none; border-radius: 50px; color: white; font-weight: bold; cursor: pointer; background: #25d366; }
+
+#ads-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; flex-direction: column; justify-content: center; align-items: center; }
+.spinner { border: 4px solid #333; border-top: 4px solid var(--gold); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+footer { margin-top: auto; padding: 20px; color: #666; font-size: 0.7rem; }

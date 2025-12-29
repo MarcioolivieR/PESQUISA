@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELEIÇÕES 2026 | Lula vs Flávio</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>PESQUISA ELEITORAL 2026</h1>
+</header>
+
+<div class="aviso-legal">
+    <strong>⚠️ PLATAFORMA DE ENTRETENIMENTO:</strong> As votações neste site são apenas para fins de <strong>interação digital</strong>. Não possuem valor científico, formal ou estatístico.
+</div>
+
+<main class="container">
+    <div class="arena">
+        <div class="candidato">
+            <img src="lulab.jpg" alt="Lula" class="img-lula">
+            <p>LULA</p>
+            <button class="btn-voto btn-lula" onclick="processarVoto('lula')">VOTAR (VÍDEO)</button>
+        </div>
+
+        <div class="vs">VS</div>
+
+        <div class="candidato">
+            <img src="Flaviob.jpG" alt="Flávio Bolsonaro" class="img-flavio">
+            <p>FLÁVIO BOLSONARO</p>
+            <button class="btn-voto btn-flavio" onclick="processarVoto('flavio')">VOTAR (VÍDEO)</button>
+        </div>
+    </div>
+
+    <div class="placar-geral">
+        <div class="votos-numeros">
+            <span id="txt-lula">0 Votos</span>
+            <span id="txt-flavio">0 Votos</span>
+        </div>
+        <div class="barra-container">
+            <div id="barra-lula">50%</div>
+            <div id="barra-flavio">50%</div>
+        </div>
+    </div>
+    <div class="share-section">
+        <p>Convoque sua militância:</p>
+        <button class="btn-share whatsapp" onclick="shareWhatsApp()">
+            Compartilhar no WhatsApp
+        </button>
+    </div>
+</main>
+
+<div id="ads-modal">
+    <div class="spinner"></div>
+    <h3>VALIDANDO VOTO...</h3>
+    <p>O anúncio está rodando. Aguarde para computar seu voto real.</p>
+</div>
+
+<footer>
+    <p>&copy; 2026 Matostecnologias - Arena de Engajamento</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
