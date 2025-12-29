@@ -1,6 +1,6 @@
 // CONFIGURAÇÃO FIREBASE
 const firebaseConfig = {
-    databaseURL: "https://SEU-PROJETO.firebaseio.com" 
+    databaseURL: "https://pesquisa-eleitoral-26-default-rtdb.firebaseio.com/" 
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
@@ -39,4 +39,5 @@ function shareWhatsApp() {
     const txtFlavio = document.getElementById('txt-flavio').innerText;
     const mensagem = encodeURIComponent(`📊 PESQUISA ELEITORAL 2026\nLula: ${txtLula}\nFlávio B: ${txtFlavio}\n\nVote agora: ${window.location.href}`);
     window.open(`https://api.whatsapp.com/send?text=${mensagem}`);
+
 }
