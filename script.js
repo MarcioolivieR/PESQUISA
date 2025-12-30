@@ -8,10 +8,9 @@ const db = firebase.database();
 function processarVoto(candidato) {
     const modal = document.getElementById('ads-modal');
     const timerText = document.getElementById('timer-text');
-    
     modal.style.display = 'flex';
     
-    // REDUZIDO PARA 5 SEGUNDOS
+    // Tempo reduzido para 5 segundos
     let segundos = 5; 
     timerText.innerText = `Validando voto... (${segundos}s)`;
     
@@ -21,23 +20,32 @@ function processarVoto(candidato) {
         
         if (segundos <= 0) {
             clearInterval(intervalo);
-            
-            // Grava no Firebase
             db.ref('eleicao/' + candidato).transaction((current) => {
                 return (current || 0) + 1;
             });
-            
             modal.style.display = 'none';
-            alert("Voto computado com sucesso!");
-
-            // ESTRATÉGIA: Abre o Smartlink após o voto para lucro extra
-            const smartlink = "https://www.effectivegatecpm.com/rmu8vqeh?key=b8088e997b2949271ed8a05e98b980d5";
-            window.open(smartlink, '_blank');
+            alert("Voto computado!");
+            
+            // Abre Smartlink após o voto para lucro extra
+            window.open("https://www.effectivegatecpm.com/rmu8vqeh?key=b8088e997b2949271ed8a05e98b980d5", '_blank');
         }
     }, 1000);
 }
 
-// ATUALIZAÇÃO EM TEMPO REAL
+function compartilharNoWhatsApp() {
+    const txtLula = document.getElementById('txt-lula').innerText;
+    const txtFlavio = document.getElementById('txt-flavio').innerText;
+    const smartlink = "https://www.effectivegatecpm.com/rmu8vqeh?key=b8088e997b2949271ed8a05e98b980d5";
+    
+    const mensagem = encodeURIComponent(
+        `📊 *PESQUISA ELEITORAL 2026*\n\n` +
+        `🔴 Lula: ${txtLula}\n` +
+        `🔵 Flávio B: ${txtFlavio}\n\n` +
+        `🗳️ *VOTE AGORA:* ${smartlink}`
+    );
+    window.open(`https://api.whatsapp.com/send?text=${mensagem}`, '_blank');
+}
+
 db.ref('eleicao').on('value', (snapshot) => {
     const d = snapshot.val() || { lula: 0, flavio: 0 };
     const total = (d.lula || 0) + (d.flavio || 0);
