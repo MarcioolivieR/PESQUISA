@@ -1,57 +1,49 @@
-// 1. CONFIGURAÇÃO FIREBASE (Verifique se este link é o seu atual)
+// CONFIGURAÇÃO FIREBASE (Sua URL oficial)
 const firebaseConfig = {
     databaseURL: "https://pesquisa-eleitoral-26-default-rtdb.firebaseio.com/" 
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// 2. FUNÇÃO DE VOTO COM 5 SEGUNDOS
 function processarVoto(candidato) {
     const modal = document.getElementById('ads-modal');
     const timerText = document.getElementById('timer-text');
     
+    // 1. Abre o Modal para focar no anúncio da SocialBar
     modal.style.display = 'flex';
     
-    let segundos = 5; 
-    timerText.innerText = `Validando voto... (${segundos}s)`;
-    
+    // 2. Contagem regressiva para obrigar a visualização
+    let segundos = 15;
     const intervalo = setInterval(() => {
         segundos--;
-        if (timerText) timerText.innerText = `Validando voto... (${segundos}s)`;
+        timerText.innerText = `Aguarde a validação do anúncio para computar seu voto real. (${segundos}s)`;
         
         if (segundos <= 0) {
             clearInterval(intervalo);
             
-            // Grava o voto no Firebase
+            // 3. Envia o voto ao Firebase
             db.ref('eleicao/' + candidato).transaction((current) => {
                 return (current || 0) + 1;
             });
             
+            // 4. Fecha o modal e avisa o usuário
             modal.style.display = 'none';
-            alert("Voto computado!");
+            alert("Voto validado e computado com sucesso!");
         }
     }, 1000);
 }
 
-// 3. ATUALIZAÇÃO EM TEMPO REAL (Garante que os números aparecem)
+// ATUALIZAÇÃO EM TEMPO REAL
 db.ref('eleicao').on('value', (snapshot) => {
     const d = snapshot.val() || { lula: 0, flavio: 0 };
-    const vLula = d.lula || 0;
-    const vFlavio = d.flavio || 0;
-    const total = vLula + vFlavio;
-
-    const pLula = total > 0 ? ((vLula / total) * 100).toFixed(1) : 50;
+    const total = (d.lula || 0) + (d.flavio || 0);
+    const pLula = total > 0 ? ((d.lula / total) * 100).toFixed(1) : 50;
     const pFlavio = (100 - pLula).toFixed(1);
 
-    // Atualiza as barras
-    const barraL = document.getElementById('barra-lula');
-    const barraF = document.getElementById('barra-flavio');
-    if(barraL) { barraL.style.width = pLula + "%"; barraL.innerText = pLula + "%"; }
-    if(barraF) { barraF.style.width = pFlavio + "%"; barraF.innerText = pFlavio + "%"; }
-    
-    // Atualiza os textos
-    const txtL = document.getElementById('txt-lula');
-    const txtF = document.getElementById('txt-flavio');
-    if(txtL) txtL.innerText = vLula + " Votos";
-    if(txtF) txtF.innerText = vFlavio + " Votos";
+    document.getElementById('barra-lula').style.width = pLula + "%";
+    document.getElementById('barra-lula').innerText = pLula + "%";
+    document.getElementById('barra-flavio').style.width = pFlavio + "%";
+    document.getElementById('barra-flavio').innerText = pFlavio + "%";
+    document.getElementById('txt-lula').innerText = (d.lula || 0) + " Votos";
+    document.getElementById('txt-flavio').innerText = (d.flavio || 0) + " Votos";
 });
