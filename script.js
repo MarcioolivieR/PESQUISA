@@ -12,8 +12,10 @@ function processarVoto(candidato) {
     // 1. Abre o Modal para focar no anúncio da SocialBar
     modal.style.display = 'flex';
     
-    // 2. Contagem regressiva para obrigar a visualização
-    let segundos = 15;
+    // 2. Contagem regressiva reduzida para 5 segundos
+    let segundos = 5; 
+    timerText.innerText = `Aguarde a validação do anúncio para computar seu voto real. (${segundos}s)`;
+    
     const intervalo = setInterval(() => {
         segundos--;
         timerText.innerText = `Aguarde a validação do anúncio para computar seu voto real. (${segundos}s)`;
