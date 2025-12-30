@@ -12,11 +12,13 @@ function processarVoto(candidato) {
     // 1. Abre o Modal para focar no anúncio da SocialBar
     modal.style.display = 'flex';
     
-    // 2. Contagem regressiva para obrigar a visualização
-    let segundos = 15;
+    // 2. Contagem regressiva alterada para 5 SEGUNDOS
+    let segundos = 5; 
+    timerText.innerText = `Validando voto... (${segundos}s)`;
+    
     const intervalo = setInterval(() => {
         segundos--;
-        timerText.innerText = `Aguarde a validação do anúncio para computar seu voto real. (${segundos}s)`;
+        timerText.innerText = `Validando voto... (${segundos}s)`;
         
         if (segundos <= 0) {
             clearInterval(intervalo);
@@ -26,9 +28,9 @@ function processarVoto(candidato) {
                 return (current || 0) + 1;
             });
             
-            // 4. Fecha o modal e avisa o usuário
+            // 4. Fecha o modal
             modal.style.display = 'none';
-            alert("Voto validado e computado com sucesso!");
+            alert("Voto computado!");
         }
     }, 1000);
 }
