@@ -10,7 +10,7 @@ function processarVoto(candidato) {
     const timerText = document.getElementById('timer-text');
     modal.style.display = 'flex';
     
-    // Tempo configurado para 5 segundos
+    // Tempo reduzido para 5 segundos
     let segundos = 5; 
     timerText.innerText = `Validando voto... (${segundos}s)`;
     
@@ -21,14 +21,13 @@ function processarVoto(candidato) {
         if (segundos <= 0) {
             clearInterval(intervalo);
             
-            // Grava o voto no Firebase
+            // Computa o voto no Firebase
             db.ref('eleicao/' + candidato).transaction((current) => {
                 return (current || 0) + 1;
             });
             
             modal.style.display = 'none';
             alert("Voto computado com sucesso!");
-            // Removido: window.open (Não abre mais nova aba aqui)
         }
     }, 1000);
 }
@@ -37,19 +36,16 @@ function compartilharNoWhatsApp() {
     const txtLula = document.getElementById('txt-lula').innerText;
     const txtFlavio = document.getElementById('txt-flavio').innerText;
     
-    // O link que as pessoas clicam no WhatsApp ainda pode ser o seu Smartlink para você ganhar dinheiro
-    const linkParaCompartilhar = "https://www.effectivegatecpm.com/rmu8vqeh?key=b8088e997b2949271ed8a05e98b980d5";
-    
     const mensagem = encodeURIComponent(
         `📊 *PESQUISA ELEITORAL 2026*\n\n` +
         `🔴 Lula: ${txtLula}\n` +
         `🔵 Flávio B: ${txtFlavio}\n\n` +
-        `🗳️ *VOTE VOCÊ TAMBÉM:* ${linkParaCompartilhar}`
+        `🗳️ *VOTE VOCÊ TAMBÉM:* ${window.location.href}`
     );
     window.open(`https://api.whatsapp.com/send?text=${mensagem}`, '_blank');
 }
 
-// Atualização do Placar em Tempo Real
+// Atualização em Tempo Real
 db.ref('eleicao').on('value', (snapshot) => {
     const d = snapshot.val() || { lula: 0, flavio: 0 };
     const total = (d.lula || 0) + (d.flavio || 0);
