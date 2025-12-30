@@ -1,4 +1,4 @@
-// CONFIGURAÇÃO FIREBASE (Sua URL oficial)
+// CONFIGURAÇÃO FIREBASE
 const firebaseConfig = {
     databaseURL: "https://pesquisa-eleitoral-26-default-rtdb.firebaseio.com/" 
 };
@@ -9,28 +9,30 @@ function processarVoto(candidato) {
     const modal = document.getElementById('ads-modal');
     const timerText = document.getElementById('timer-text');
     
-    // 1. Abre o Modal para focar no anúncio da SocialBar
     modal.style.display = 'flex';
     
-    // 2. Contagem regressiva reduzida para 5 segundos
+    // REDUZIDO PARA 5 SEGUNDOS
     let segundos = 5; 
-    timerText.innerText = `Aguarde a validação do anúncio para computar seu voto real. (${segundos}s)`;
+    timerText.innerText = `Validando voto... (${segundos}s)`;
     
     const intervalo = setInterval(() => {
         segundos--;
-        timerText.innerText = `Aguarde a validação do anúncio para computar seu voto real. (${segundos}s)`;
+        timerText.innerText = `Validando voto... (${segundos}s)`;
         
         if (segundos <= 0) {
             clearInterval(intervalo);
             
-            // 3. Envia o voto ao Firebase
+            // Grava no Firebase
             db.ref('eleicao/' + candidato).transaction((current) => {
                 return (current || 0) + 1;
             });
             
-            // 4. Fecha o modal e avisa o usuário
             modal.style.display = 'none';
-            alert("Voto validado e computado com sucesso!");
+            alert("Voto computado com sucesso!");
+
+            // ESTRATÉGIA: Abre o Smartlink após o voto para lucro extra
+            const smartlink = "https://www.effectivegatecpm.com/rmu8vqeh?key=b8088e997b2949271ed8a05e98b980d5";
+            window.open(smartlink, '_blank');
         }
     }, 1000);
 }
